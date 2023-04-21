@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='icon.png' rel='icon' type='image/x-icon'/>
+    <title>Belamkazar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@400;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+
+
+    <style>
+      * {
+        background: #090909;
+        color: #2e95d3;
+        font-weight: bold;
+        font-size: 13px;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Univers, Helvetica, Arial, sans-serif;
+      }
+
+      #contenedor {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      .textarea {
+        width: 178px;
+      }
+
+      button {
+        height: 33px;
+        background: #171819;
+        color: #dad1da;
+      }
+
+      .p {
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+      }
+
+      textarea {
+        width: 170px;
+        height: 37px;
+      }
+
+      .botones {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .botones button {
+        float: right;
+      }
+
+      .portapapeles {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .botones button {
+        margin-left: auto;
+      }
+
+      .portapapeles-container {
+        display: inline-block;
+        width: 300px;
+      }
+
+      @media only screen and (max-width: 600px) {
+    .portapapeles {
+      display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .portapapeles textarea {
+    width: 100%;
+    order: 1;
+    }
+    .portapapeles button {
+    order: 2;
+    margin-left: auto;
+    }
+    }
+
+
+    </style>
+  </head>
+  <body>
+
+
+    <div id="contenedor"></div>
+    <button onclick="crearPortapapeles()">Crear nuevo portapapeles</button><br><br>
+    <script>
+      var contador = 1;
+      cargarPortapapelesGuardados();
+      function cargarPortapapelesGuardados() {
+        for (var i = 1; i <= localStorage.length; i++) {
+          var textoGuardado = localStorage.getItem("texto" + i);
+          if (textoGuardado != null) {
+            var nuevoPortapapeles = document.createElement("div");
+            nuevoPortapapeles.classList.add("portapapeles");
+            nuevoPortapapeles.innerHTML = '<textarea id="texto' + contador + '" rows="5" cols="50">' + textoGuardado + '</textarea><br>' +
+                                          '<button onclick="copiarYGardar(' + contador + ')">Copiar</button>';
+            document.getElementById("contenedor").appendChild(nuevoPortapapeles);
+            contador++;
+          }
+        }
+      }
+      function crearPortapapeles() {
+        var nuevoPortapapeles = document.createElement("div");
+        nuevoPortapapeles.classList.add("portapapeles");
+        nuevoPortapapeles.innerHTML = '<textarea id="texto' + contador + '" rows="5" cols="50"></textarea><br>' +
+                                      '<button onclick="copiarYGardar(' + contador + ')">Copiar</button>';
+        document.getElementById("contenedor").appendChild(nuevoPortapapeles);
+        localStorage.setItem("texto" + contador, "");
+        contador++;
+      }
+      function copiarYGardar(id) {
+        var texto = document.getElementById("texto" + id);
+        texto.select();
+        document.execCommand("copy");
+        localStorage.setItem("texto" + id, texto.value);
+      }
+    </script>
+  </body>
+</html>
